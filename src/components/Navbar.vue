@@ -1,8 +1,8 @@
 <template>
-	<nav>
+	<nav v-if="user">
 		<div>
 			<p>Hey there {{ user.displayName }}</p>
-			<p class="email">Currently logged in as... email</p>
+			<p class="email">Currently logged in as {{ user.email }}</p>
 		</div>
 		<button @click="handleClick">Logout</button>
 	</nav>
@@ -24,8 +24,6 @@ export default {
 		const handleClick = async () => {
 			await logout();
 			if (!error.value) {
-				// router.push({ name: 'Home' });
-				console.log('user logged out');
 			}
 		};
 
