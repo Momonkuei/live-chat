@@ -14,11 +14,10 @@
 <script>
 import getCollection from '../composables/getCollection';
 import { formatDistanceToNow } from 'date-fns';
-import { computed, nextTick, ref } from 'vue';
+import { computed, ref, onUpdated } from 'vue';
 export default {
 	setup() {
 		const { error, documents } = getCollection('messages');
-		const messages = ref();
 
 		const formattedDocuments = computed(() => {
 			if (documents.value) {
@@ -29,11 +28,14 @@ export default {
 			}
 		});
 
-		const keepScrollUnder = nextTick(() => {
-			div.scrollTop = div.scrollHeight;
+		// auto-scroll to bottom of messages
+		const messages = ref(null);
+
+		onUpdated(() => {
+			messages.value.scrollTop = messages.value.scrollHeight;
 		});
 
-		return { error, documents, formattedDocuments, keepScrollUnder };
+		return { error, documents, formattedDocuments, messages };
 	},
 };
 </script>
